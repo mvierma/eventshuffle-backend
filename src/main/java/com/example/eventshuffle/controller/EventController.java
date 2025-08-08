@@ -70,15 +70,24 @@ public class EventController {
         mergedEvent.put("event",votedEvent);
         mergedEvent.put("vote", vote);
 
-        return new ResponseEntity<>(mergedEvent, HttpStatus.OK);
+        return new ResponseEntity<>(mergedEvent, HttpStatus.CREATED);
 
         
     }
 
     @GetMapping("/api/v1/event/{id}/results")
     public ResponseEntity<Object> getResults(@PathVariable int id) {
-        // TODO
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Event event = eventService.getEventById(id);
+        if (event == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        Object suitableDates = voteService.getSuitableDates(id);
+
+        Map<String, Object> eventWithResults = new HashMap<String, Object>();
+        eventWithResults.put("", event);
+        eventWithResults.put("suitableDates", suitableDates);
+
+        return new ResponseEntity<>(eventWithResults, HttpStatus.OK);
+        
     }
     
     
