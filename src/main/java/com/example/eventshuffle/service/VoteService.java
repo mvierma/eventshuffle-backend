@@ -11,6 +11,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.eventshuffle.model.EventVote;
 import com.example.eventshuffle.model.Vote;
 import com.example.eventshuffle.repository.VoteRepo;
 
@@ -27,7 +28,21 @@ public class VoteService {
 
     public Object getEventVotes(Integer id) {
         List<Vote> votes = voteRepo.findByEventId(id);
-        return votes;
+
+        List<EventVote> currentVotes = new ArrayList<>();
+        Map<Date, List<String>> dateToVoters = new HashMap<>();
+
+        for (Vote vote : votes) {
+            for (Date date : vote.getVotes()) {
+                dateToVoters.computeIfAbsent(date, k -> new ArrayList<>()).add(vote.getName());
+            }
+        }
+
+        for (Map.Entry<Date, List<String>> entry : dateToVoters.entrySet()) {
+            currentVotes.add(new EventVote(entry.getKey(), entry.getValue()));
+        }
+
+        return currentVotes;
     }
 
     public Object getSuitableDates(int id) {

@@ -26,6 +26,7 @@ public class EventService {
 
 
     public Event getEventById(int id) {
+        
         return eventRepo.findById(id).orElse(null);
     }
 

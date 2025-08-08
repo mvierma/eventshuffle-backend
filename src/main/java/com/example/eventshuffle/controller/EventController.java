@@ -64,11 +64,11 @@ public class EventController {
     @PostMapping("/api/v1/event/{id}/vote")
     public ResponseEntity<Object> addVote(@RequestBody Vote vote, @PathVariable int id) {
         voteService.addVote(vote, id);
-        Event votedEvent = eventService.getEventById(id);
+        Event event = eventService.getEventById(id);
 
         Map<String, Object> mergedEvent = new HashMap<String, Object>();
-        mergedEvent.put("event",votedEvent);
-        mergedEvent.put("vote", vote);
+        mergedEvent.put("", event);
+        mergedEvent.put("votes", voteService.getEventVotes(event.getId()));
 
         return new ResponseEntity<>(mergedEvent, HttpStatus.CREATED);
 
