@@ -5,8 +5,9 @@ A simple Spring Boot REST API for managing events, votes, and retrieving suitabl
 ## Running the application
 
 1. Clone the repository
-2. Build and deploy containers with docker compose up -d
-3. For a clean shutdown use docker compose down
+2. Build the .jar package with mvn clean package
+3. Build and deploy containers with docker compose up -d
+4. For a clean shutdown use docker compose down
 
 
 
